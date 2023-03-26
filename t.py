@@ -10,11 +10,11 @@ def random_orthogonal_matrix(n):
     q, r = numpy.linalg.qr(a)
     return q
 
-def compress(model, ratio, last_layer=29):
+def compress(name, model, ratio, last_layer=29):
     '''multiply random orthogonal matrices to the paring weights of the MLP of the transformer to compress the model'''
 
     # only keep two significant digits for ratio
-    compressed_name = f'/tmp/bloom-560m-compressed-{int(ratio * 100)}'
+    compressed_name = f'{name}-compressed-{int(ratio * 100)}'
 
     # load existing compressed model if exists
     try:
@@ -97,7 +97,7 @@ if __name__ == "__main__":
         print()
 
     # compress the model
-    model2 = compress(model, args.ratio, last_layer=args.num_layers-1)
+    model2 = compress(model_id.replace('/', '_'), model, args.ratio, last_layer=args.num_layers-1)
     print(tokenizer.batch_decode(model2.generate(input_ids)))
     for x in tokenizer.batch_decode(model2.generate(input_ids, do_sample=True, top_k=50, top_p=0.95, num_return_sequences=3)):
         print(x)
