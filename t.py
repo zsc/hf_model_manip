@@ -73,6 +73,7 @@ def compress(name, model, ratio, last_layer=29):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_id", type=str, default="bigscience/bloom-560m")
+    parser.add_argument("--tokenizer_id", type=str)
     parser.add_argument("--ratio", type=float, default=0.5)
     parser.add_argument("--num_layers", type=int, default=30)
     args = parser.parse_args()
@@ -86,7 +87,7 @@ if __name__ == "__main__":
     # load a Hugging face mode using `from_pretrained`
     model_id = args.model_id
     model = AutoModelForCausalLM.from_pretrained(model_id)
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_id or model_id)
 
     text = """OpenAI is a company"""
     input_ids = tokenizer(text, return_tensors="pt").input_ids
