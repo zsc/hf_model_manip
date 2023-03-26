@@ -14,7 +14,7 @@ def compress(model, ratio, last_layer=29):
     '''multiply random orthogonal matrices to the paring weights of the MLP of the transformer to compress the model'''
 
     # only keep two significant digits for ratio
-    compressed_name = f'/Users/georgezhou/Downloads/bloom-560m-compressed-{int(ratio * 100)}'
+    compressed_name = f'/tmp/bloom-560m-compressed-{int(ratio * 100)}'
 
     # load existing compressed model if exists
     try:
